@@ -190,9 +190,7 @@ Abra o arquivo `pitch-nexus.html` para a apresentação, ou `telas/portal-univer
 
 ## 👥 Autores
 
-Trabalho desenvolvido para a disciplina de **Mineração de Dados** — 2025.1
-
-> Universidade UniVerde — Engenharia de Computação
+Trabalho desenvolvido para a disciplina de **Mineração de Dados** — 2026.1
 
 ---
 

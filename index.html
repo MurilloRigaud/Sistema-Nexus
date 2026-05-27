@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal do Aluno – UniVerde</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-900: #0a2e1a;
+    --green-800: #133d24;
+    --green-700: #1b5232;
+    --green-600: #1e6b3e;
+    --green-500: #2e8b57;
+    --green-400: #3daa6b;
+    --green-300: #6ecf96;
+    --green-200: #a8e6c0;
+    --green-100: #d6f4e4;
+    --green-50:  #edfaf3;
+    --gold:      #c9a227;
+    --gold-light:#f0d47a;
+    --cream:     #faf8f4;
+    --text-dark: #111a14;
+    --text-mid:  #3a4f3e;
+    --text-muted:#6b8070;
+    --border:    rgba(30,107,62,0.15);
+    --shadow-sm: 0 1px 3px rgba(10,46,26,0.08);
+    --shadow-md: 0 4px 16px rgba(10,46,26,0.12);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--green-900);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--green-400);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: white;
+    font-style: italic;
+  }
+
+  .logo-text {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: white;
+    letter-spacing: 0.01em;
+  }
+
+  .logo-text span {
+    color: var(--gold-light);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .header-nav a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .header-nav a:hover { color: white; }
+
+  .header-nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 5px 12px 5px 5px;
+    cursor: pointer;
+  }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .user-name {
+    font-size: 13px;
+    color: white;
+    font-weight: 400;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: var(--green-800);
+    padding: 12px 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .breadcrumb {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .breadcrumb span { color: var(--green-300); }
+
+  .semester-badge {
+    background: rgba(46,139,87,0.3);
+    border: 1px solid rgba(46,139,87,0.4);
+    color: var(--green-200);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sidebar-section {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.75rem 0.75rem 0.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-mid);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .sidebar-item:hover {
+    background: rgba(30,107,62,0.08);
+    color: var(--green-700);
+  }
+
+  .sidebar-item.active {
+    background: var(--green-50);
+    color: var(--green-700);
+    border-color: var(--border);
+    font-weight: 500;
+  }
+
+  .sidebar-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  /* CONTENT */
+  .content { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  /* WELCOME */
+  .welcome-card {
+    background: linear-gradient(135deg, var(--green-800) 0%, var(--green-700) 100%);
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .welcome-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .welcome-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: 80px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .welcome-text h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .welcome-text h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .welcome-text p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .welcome-stats {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-pill {
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 20px;
+  }
+
+  .stat-pill .num {
+    font-size: 22px;
+    font-weight: 300;
+    color: white;
+    display: block;
+    font-family: 'Fraunces', serif;
+  }
+
+  .stat-pill .label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    background: #fff8e7;
+    border: 1.5px solid #f0c040;
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .alert-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #fff0c0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .alert-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #7a5800;
+    margin-bottom: 3px;
+  }
+
+  .alert-content p {
+    font-size: 13px;
+    color: #9c7200;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* DISCIPLINAS GRID */
+  .disciplinas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .disciplina-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    transition: all 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .disciplina-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .disciplina-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .disciplina-card.risco-alto::before { background: #e53935; }
+  .disciplina-card.risco-medio::before { background: #f57c00; }
+  .disciplina-card.risco-baixo::before { background: var(--green-500); }
+  .disciplina-card.ok::before { background: var(--green-400); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .disciplina-nome {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .disciplina-codigo {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .risco-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .risco-badge.alto { background: #fdecea; color: #c62828; }
+  .risco-badge.medio { background: #fff3e0; color: #e65100; }
+  .risco-badge.baixo { background: #e8f5e9; color: #2e7d32; }
+  .risco-badge.ok { background: var(--green-50); color: var(--green-700); }
+
+  .nota-info {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .nota-num {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text-dark);
+  }
+
+  .nota-max {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+  }
+
+  .fill-alto { background: #ef5350; }
+  .fill-medio { background: #ffa726; }
+  .fill-baixo { background: var(--green-400); }
+  .fill-ok { background: var(--green-500); }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* NEXUS BANNER — sistema de recomendação */
+  .nexus-banner {
+    background: var(--green-900);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    border: 1px solid rgba(46,139,87,0.3);
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+
+  .nexus-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(10,46,26,0.25);
+    border-color: rgba(46,139,87,0.5);
+  }
+
+  .nexus-accent {
+    width: 6px;
+    background: linear-gradient(to bottom, var(--green-400), var(--green-300));
+    flex-shrink: 0;
+  }
+
+  .nexus-body {
+    padding: 1.5rem 1.75rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nexus-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nexus-logo-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--green-500), var(--green-400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .nexus-logo-box svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: white;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nexus-text h3 {
+    font-size: 15.5px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .new-badge {
+    background: var(--green-400);
+    color: var(--green-900);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  .nexus-text p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+  }
+
+  .nexus-cta {
+    background: var(--green-500);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+  }
+
+  .nexus-cta:hover { background: var(--green-400); }
+
+  .nexus-cta svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* AVISOS */
+  .avisos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .aviso-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .aviso-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .aviso-dot.info { background: #1976d2; }
+  .aviso-dot.warn { background: #f57c00; }
+  .aviso-dot.ok   { background: var(--green-500); }
+
+  .aviso-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+  }
+
+  .aviso-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+
+  footer strong { color: var(--green-700); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">U</div>
+    <span class="logo-text">Uni<span>Verde</span></span>
+  </a>
+  <nav class="header-nav">
+    <a href="#">Portal do Aluno</a>
+    <a href="#">Biblioteca</a>
+    <a href="#">Secretaria</a>
+    <a href="#">Suporte</a>
+  </nav>
+  <div class="header-right">
+    <div class="user-chip">
+      <div class="user-avatar">CM</div>
+      <span class="user-name">Carlos Mendes</span>
+    </div>
+  </div>
+</header>
+
+<div class="top-bar">
+  <div class="breadcrumb">Portal do Aluno &rsaquo; <span>Início</span></div>
+  <div class="semester-badge">2025.1 — Engenharia de Computação · 4° período</div>
+</div>
+
+<main>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">Menu</div>
+
+    <a class="sidebar-item active" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+      Início
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 5h12M4 10h12M4 15h8"/></svg>
+      Minhas Disciplinas
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M8 4V2M12 4V2"/></svg>
+      Horários e Calendário
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M10 3v14M3 10h14"/></svg>
+      Notas e Frequência
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M10 7v3l2 2"/></svg>
+      Histórico
+    </a>
+
+    <div class="sidebar-section">Financeiro</div>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="5" width="16" height="11" rx="1.5"/><path d="M2 9h16"/></svg>
+      Mensalidades
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4h12l-1.5 9H5.5L4 4z"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg>
+      Bolsas e Descontos
+    </a>
+
+    <div class="sidebar-section">Suporte</div>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M10 13v.5M10 7c0 0 0 2 2 2.5C13.5 10 12 12 10 12"/></svg>
+      Central de Ajuda
+    </a>
+
+    <a class="sidebar-item" href="#">
+      <svg class="sidebar-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4h12v9H4zM4 13l3 3h6l3-3"/></svg>
+      Fale com a Secretaria
+    </a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- WELCOME -->
+    <div class="welcome-card">
+      <div class="welcome-text">
+        <h1>Olá, <em>Carlos.</em> Bem-vindo de volta.</h1>
+        <p>Você tem 2 avaliações esta semana e 1 alerta de desempenho para revisar.</p>
+      </div>
+      <div class="welcome-stats">
+        <div class="stat-pill">
+          <span class="num">5</span>
+          <span class="label">Disciplinas</span>
+        </div>
+        <div class="stat-pill">
+          <span class="num">82%</span>
+          <span class="label">Frequência</span>
+        </div>
+        <div class="stat-pill">
+          <span class="num">6,1</span>
+          <span class="label">Média Geral</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert-banner">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h3>Atenção: risco de reprovação detectado</h3>
+        <p>Sua nota em <strong>Cálculo II</strong> e <strong>Estruturas de Dados</strong> está abaixo da média mínima. Utilize o sistema de apoio acadêmico disponível abaixo para receber recomendações personalizadas.</p>
+      </div>
+    </div>
+
+    <!-- DISCIPLINAS -->
+    <div>
+      <div class="section-title">Desempenho por disciplina</div>
+      <div class="disciplinas-grid">
+
+        <div class="disciplina-card risco-alto">
+          <div class="card-header">
+            <div>
+              <div class="disciplina-nome">Cálculo II</div>
+              <div class="disciplina-codigo">MAT-204 · Prof. Dr. Sílvio Almeida</div>
+            </div>
+            <span class="risco-badge alto">Risco alto</span>
+          </div>
+          <div class="nota-info">
+            <span class="nota-num">4,2</span>
+            <span class="nota-max">/ 10,0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-alto" style="width:42%"></div></div>
+          <div class="card-meta">
+            <span>Frequência: 71%</span>
+            <span>Prova: 18/07</span>
+          </div>
+        </div>
+
+        <div class="disciplina-card risco-medio">
+          <div class="card-header">
+            <div>
+              <div class="disciplina-nome">Estruturas de Dados</div>
+              <div class="disciplina-codigo">INF-312 · Prof.ª Dra. Renata Cruz</div>
+            </div>
+            <span class="risco-badge medio">Risco médio</span>
+          </div>
+          <div class="nota-info">
+            <span class="nota-num">5,7</span>
+            <span class="nota-max">/ 10,0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-medio" style="width:57%"></div></div>
+          <div class="card-meta">
+            <span>Frequência: 86%</span>
+            <span>Prova: 22/07</span>
+          </div>
+        </div>
+
+        <div class="disciplina-card risco-baixo">
+          <div class="card-header">
+            <div>
+              <div class="disciplina-nome">Física III</div>
+              <div class="disciplina-codigo">FIS-301 · Prof. Dr. Marcos Lira</div>
+            </div>
+            <span class="risco-badge baixo">Atenção</span>
+          </div>
+          <div class="nota-info">
+            <span class="nota-num">6,3</span>
+            <span class="nota-max">/ 10,0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-baixo" style="width:63%"></div></div>
+          <div class="card-meta">
+            <span>Frequência: 90%</span>
+            <span>Prova: 25/07</span>
+          </div>
+        </div>
+
+        <div class="disciplina-card ok">
+          <div class="card-header">
+            <div>
+              <div class="disciplina-nome">Redes de Computadores</div>
+              <div class="disciplina-codigo">INF-350 · Prof. Dr. André Lima</div>
+            </div>
+            <span class="risco-badge ok">Bom desempenho</span>
+          </div>
+          <div class="nota-info">
+            <span class="nota-num">8,1</span>
+            <span class="nota-max">/ 10,0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill fill-ok" style="width:81%"></div></div>
+          <div class="card-meta">
+            <span>Frequência: 95%</span>
+            <span>Prova: 29/07</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NEXUS BANNER -->
+    <div>
+      <div class="section-title">Apoio acadêmico inteligente</div>
+      <a class="nexus-banner" href="nexus-sistema.html" target="_blank">
+        <div class="nexus-accent"></div>
+        <div class="nexus-body">
+          <div class="nexus-left">
+            <div class="nexus-logo-box">
+              <svg viewBox="0 0 26 26">
+                <circle cx="13" cy="13" r="4"/>
+                <path d="M13 3v3M13 20v3M3 13h3M20 13h3"/>
+                <path d="M6.3 6.3l2.1 2.1M17.6 17.6l2.1 2.1M17.6 6.3l-2.1 2.1M8.4 17.6l-2.1 2.1"/>
+              </svg>
+            </div>
+            <div class="nexus-text">
+              <h3>Nexus — Monitor de Aprendizagem <span class="new-badge">NOVO</span></h3>
+              <p>Sistema inteligente de recomendação educacional personalizada. Detecta suas dificuldades e sugere vídeos, exercícios e materiais específicos para você recuperar o desempenho.</p>
+            </div>
+          </div>
+          <a class="nexus-cta" href="nexus-sistema.html" target="_blank">
+            Acessar o Nexus
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </a>
+    </div>
+
+    <!-- AVISOS -->
+    <div>
+      <div class="section-title">Avisos recentes</div>
+      <div class="avisos-list">
+        <div class="aviso-item">
+          <div class="aviso-dot warn"></div>
+          <div>
+            <div class="aviso-title">Lista 3 de Cálculo II publicada</div>
+            <div class="aviso-meta">Prof. Sílvio Almeida · há 2 horas · entrega em 3 dias</div>
+          </div>
+        </div>
+        <div class="aviso-item">
+          <div class="aviso-dot info"></div>
+          <div>
+            <div class="aviso-title">Monitoria de Estruturas de Dados — vagas abertas</div>
+            <div class="aviso-meta">Coordenação · há 1 dia · toda terça e quinta, 17h</div>
+          </div>
+        </div>
+        <div class="aviso-item">
+          <div class="aviso-dot ok"></div>
+          <div>
+            <div class="aviso-title">Nota da prova de Redes publicada — parabéns!</div>
+            <div class="aviso-meta">Prof. André Lima · há 3 dias · nota: 8,1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 <strong>UniVerde</strong> — Universidade das Ciências e Tecnologias Verdes &nbsp;·&nbsp; CNPJ 00.000.000/0001-00 &nbsp;·&nbsp; Vitória da Conquista, BA &nbsp;·&nbsp; Sistema de Apoio Inteligente fornecido por <strong>Nexus Edu</strong>
+</footer>
+
+</body>
+</html>
